@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注文履歴 - ショップ</title>
+    <link rel="stylesheet" href="../common/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ショップ</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">ホーム</a></li>
+                    <li><a href="/order">注文履歴</a></li>
+                    <li><a href="/login" style="color: #667eea;">ログイン</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>注文履歴</h2>
+            
+            <div id="ordersContainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>注文ID</th>
+                            <th>商品</th>
+                            <th>数量</th>
+                            <th>金額</th>
+                            <th>注文日</th>
+                            <th>ステータス</th>
+                            <th>アクション</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 20px; color: #999;">
+                                注文データが見つかりません
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- カート内容 -->
+            <div style="margin-top: 40px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3>現在のカート</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>商品名</th>
+                            <th>数量</th>
+                            <th>金額</th>
+                            <th>アクション</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTable">
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px; color: #999;">
+                                カートは空です
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="clearCart()">カートをクリア</button>
+                    <button class="btn btn-primary" onclick="checkout()" style="margin-left: 10px;">チェックアウト</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer style="background: #333; color: white; text-align: center; padding: 20px; margin-top: 40px;">
+        <p>&copy; 2026 Shop. All rights reserved.</p>
+    </footer>
+    
+    <script src="../customer/js/order.js"></script>
+</body>
+</html>
