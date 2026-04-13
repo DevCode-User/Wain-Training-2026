@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利用者ホーム</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <!-- ナビゲーションヘッダー -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title">ECシステム</h1>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a th:href="@{/home}" class="nav-link active">ホーム</a>
+                <a th:href="@{/products}" class="nav-link">商品一覧</a>
+                <a th:href="@{/cart}" class="nav-link">カート</a>
+                <form th:action="@{/logout}" method="post" class="nav-logout">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="home-container">
+        <div class="card welcome-card">
+            <h1>ようこそ！</h1>
+            <p class="welcome-text">こんにちは、<strong th:text="${userName}">利用者名</strong> さん</p>
+            <p class="subtitle">あなたのショッピング体験をお楽しみください</p>
+        </div>
+
+        <!-- おすすめ商品セクション -->
+        <section class="recommended-section">
+            <h2>おすすめ商品</h2>
+            <div th:if="${recommendedProducts.isEmpty()}" class="card">
+                <p>おすすめ商品がまだありません。</p>
+            </div>
+            <div class="product-grid" th:if="${not recommendedProducts.isEmpty()}">
+                <div th:each="product : ${recommendedProducts}" class="card product-card">
+                    <div class="product-image">
+                        <div class="image-placeholder" th:text="${product.category}">カテゴリ</div>
+                    </div>
+                    <h3 th:text="${product.productName}">商品名</h3>
+                    <p class="category" th:text="${product.category}">カテゴリ</p>
+                    <p class="description" th:text="${product.description}">説明</p>
+                    <div class="product-info">
+                        <div class="price">
+                            <span class="price-value" th:text="${#numbers.formatInteger(product.price, 1)}">0</span>
+                            <span class="price-unit">円</span>
+                        </div>
+                    </div>
+                    <form th:action="@{/cart/add}" method="post" class="add-to-cart-form">
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button class="btn primary" type="submit" th:disabled="${product.stockQuantity <= 0}">
+                            <span th:if="${product.stockQuantity > 0}">カートに追加</span>
+                            <span th:if="${product.stockQuantity <= 0}">在庫なし</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- アクション -->
+        <div class="actions-section">
+            <a th:href="@{/products}" class="btn primary large">全商品を見る</a>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/menu.js}"></script>
+</body>
+</html>

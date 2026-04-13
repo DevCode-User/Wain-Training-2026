@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品一覧</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <!-- ナビゲーションヘッダー -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title">商品一覧</h1>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a th:href="@{/home}" class="nav-link">ホーム</a>
+                <a th:href="@{/products}" class="nav-link active">商品一覧</a>
+                <a th:href="@{/cart}" class="nav-link">カート</a>
+                <form th:action="@{/logout}" method="post" class="nav-logout">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="main-content">
+        <!-- サイドバー（検索・フィルター） -->
+        <aside class="sidebar">
+            <div class="card search-card">
+                <h3>キーワード検索</h3>
+                <form th:action="@{/products}" method="get" class="search-form">
+                    <input type="text" name="keyword" th:value="${searchKeyword}" placeholder="商品名で検索...">
+                    <button class="btn primary" type="submit">検索</button>
+                </form>
+            </div>
+
+            <div class="card filter-card">
+                <h3>価格で検索</h3>
+                <form th:action="@{/products}" method="get" class="search-form">
+                    <label for="maxPriceSlider">最大価格</label>
+                    <div class="price-slider">
+                        <input type="range" id="maxPriceSlider" name="maxPrice" min="0" max="99999" step="100"
+                               th:value="${maxPrice != null ? maxPrice : 99999}"
+                               oninput="document.getElementById('maxPriceValue').textContent = this.value + '円';">
+                        <div class="slider-value-row">
+                            <span id="maxPriceValue" th:text="${maxPrice != null ? maxPrice : 99999} + '円'">99999円</span>
+                        </div>
+                    </div>
+                    <button class="btn primary" type="submit">検索</button>
+                </form>
+            </div>
+
+            <div class="card filter-card">
+                <h3>カテゴリから探す</h3>
+                <div class="category-list">
+                    <a th:href="@{/products}" class="category-link" th:class="${selectedCategory == null ? 'category-link active' : 'category-link'}">
+                        すべて表示
+                    </a>
+                    <th:block th:each="cat : ${categories}">
+                        <a th:href="@{/products(category=${cat})}" class="category-link" th:class="${selectedCategory == cat ? 'category-link active' : 'category-link'}" th:text="${cat}">
+                            カテゴリ
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 商品グリッド -->
+        <main class="product-grid-container">
+            <div th:if="${products.isEmpty()}" class="card no-products">
+                <p>商品が見つかりません。</p>
+                <a th:href="@{/products}" class="btn secondary">すべての商品を表示</a>
+            </div>
+
+            <div th:if="${not products.isEmpty()}" class="product-grid">
+                <div th:each="product : ${products}" class="card product-card">
+                    <div class="product-image">
+                        <div class="image-placeholder">
+                            [[${product.category}]]
+                        </div>
+                    </div>
+                    <h3 th:text="${product.productName}">商品名</h3>
+                    <p class="category" th:text="${product.category}">カテゴリ</p>
+                    <p class="description" th:text="${product.description}">商品説明</p>
+                    <div class="product-info">
+                        <div class="price">
+                            <span class="price-value" th:text="${#numbers.formatInteger(product.price, 1)}">0</span>
+                            <span class="price-unit">円</span>
+                        </div>
+                        <div class="stock" th:class="${product.stockQuantity > 0 ? 'stock in-stock' : 'stock out-of-stock'}">
+                            <span th:if="${product.stockQuantity > 0}" th:text="${'在庫: ' + product.stockQuantity}">在庫あり</span>
+                            <span th:if="${product.stockQuantity <= 0}">在庫なし</span>
+                        </div>
+                    </div>
+                    <form th:action="@{/cart/add}" method="post" class="add-to-cart-form">
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button class="btn primary" th:disabled="${product.stockQuantity <= 0}" type="submit">
+                            <span th:if="${product.stockQuantity > 0}">カートに追加</span>
+                            <span th:if="${product.stockQuantity <= 0}">在庫なし</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/js/menu.js}"></script>
+</body>
+</html>

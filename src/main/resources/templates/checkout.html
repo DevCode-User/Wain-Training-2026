@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注文確認</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <!-- ナビゲーションヘッダー -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title">注文確認</h1>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a th:href="@{/home}" class="nav-link">ホーム</a>
+                <a th:href="@{/products}" class="nav-link">商品一覧</a>
+                <a th:href="@{/cart}" class="nav-link">カート</a>
+                <a th:href="@{/mypage}" class="nav-link">マイページ</a>
+                <form th:action="@{/logout}" method="post" class="nav-logout">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- チェックアウトフォーム -->
+    <div class="checkout-container">
+        <div class="checkout-form-section">
+            <h2>注文情報の確認</h2>
+
+            <!-- エラー表示 -->
+            <div th:if="${errorMessage}" class="alert alert-error">
+                <p th:text="${errorMessage}">エラーメッセージ</p>
+            </div>
+
+            <!-- 注文アイテム -->
+            <div class="card order-items-section">
+                <h3>注文商品</h3>
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>商品名</th>
+                            <th>単価</th>
+                            <th>数量</th>
+                            <th>小計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${cart}">
+                            <td th:text="${item.productName}">商品名</td>
+                            <td class="price" th:text="${#numbers.formatInteger(item.price, 1)} + '円'">0円</td>
+                            <td th:text="${item.quantity}">1</td>
+                            <td class="price" th:text="${#numbers.formatInteger(item.subtotal, 1)} + '円'">0円</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="order-total">
+                    <span>合計金額:</span>
+                    <span class="total-amount" th:text="${#numbers.formatInteger(cartTotal, 1)} + '円'">0円</span>
+                </div>
+            </div>
+
+            <!-- 配送先・支払方法入力 -->
+            <form th:action="@{/order/confirm}" method="post" class="card checkout-form">
+                <div class="form-group">
+                    <label for="shippingAddress">配送先住所 <span class="required">*</span></label>
+                    <textarea id="shippingAddress" name="shippingAddress" rows="4" required placeholder="住所を入力してください"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">支払方法 <span class="required">*</span></label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="">選択してください</option>
+                        <option value="Credit Card">クレジットカード</option>
+                        <option value="Bank Transfer">銀行振込</option>
+                        <option value="COD">着払い</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn primary large" type="submit">注文を確定する</button>
+                    <a th:href="@{/cart}" class="btn secondary">いいえ、カートに戻る</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/menu.js}"></script>
+</body>
+</html>

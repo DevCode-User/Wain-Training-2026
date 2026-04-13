@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注文詳細</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <!-- ナビゲーションヘッダー -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title">注文詳細</h1>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a th:href="@{/home}" class="nav-link">ホーム</a>
+                <a th:href="@{/products}" class="nav-link">商品一覧</a>
+                <a th:href="@{/cart}" class="nav-link">カート</a>
+                <a th:href="@{/mypage}" class="nav-link">マイページ</a>
+                <form th:action="@{/logout}" method="post" class="nav-logout">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 注文詳細 -->
+    <div class="order-detail-container">
+        <div class="card order-info-section">
+            <h2>注文情報</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>注文番号</label>
+                    <p th:text="${order.orderId}">12345</p>
+                </div>
+                <div class="info-item">
+                    <label>注文日時</label>
+                    <p th:text="${#temporals.format(order.orderDate, 'yyyy年MM月dd日 HH:mm:ss')}">2026年04月10日 10:00:00</p>
+                </div>
+                <div class="info-item">
+                    <label>合計金額</label>
+                    <p class="total-amount" th:text="${#numbers.formatInteger(order.totalAmount, 1)} + '円'">0円</p>
+                </div>
+                <div class="info-item">
+                    <label>ステータス</label>
+                    <p th:text="${order.orderStatus == 'PENDING' ? '処理中' : order.orderStatus == 'COMPLETED' ? '完了' : 'キャンセル'}">ステータス</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shipping-info-section">
+            <h3>配送先情報</h3>
+            <p th:text="${order.shippingAddress}">住所</p>
+        </div>
+
+        <div class="card payment-info-section">
+            <h3>支払方法</h3>
+            <p th:text="${order.paymentMethod}">支払方法</p>
+        </div>
+
+        <div class="card order-items-section">
+            <h3>注文商品</h3>
+            <table class="order-items-table">
+                <thead>
+                    <tr>
+                        <th>商品名</th>
+                        <th>数量</th>
+                        <th>単価</th>
+                        <th>小計</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${orderItems}">
+                        <td th:text="${item.productName}">商品名</td>
+                        <td th:text="${item.quantity}">1</td>
+                        <td class="price" th:text="${#numbers.formatInteger(item.unitPrice, 1)} + '円'">0円</td>
+                        <td class="price" th:text="${#numbers.formatInteger(item.subtotal, 1)} + '円'">0円</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-group">
+            <a th:href="@{/mypage}" class="btn secondary">注文履歴に戻る</a>
+            <a th:href="@{/products}" class="btn primary">買い物を続ける</a>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/menu.js}"></script>
+</body>
+</html>

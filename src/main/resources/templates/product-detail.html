@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品詳細</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <!-- ナビゲーションヘッダー -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title">商品詳細</h1>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a th:href="@{/home}" class="nav-link">ホーム</a>
+                <a th:href="@{/products}" class="nav-link">商品一覧</a>
+                <a th:href="@{/cart}" class="nav-link">カート</a>
+                <a th:href="@{/mypage}" class="nav-link">マイページ</a>
+                <form th:action="@{/logout}" method="post" class="nav-logout">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 商品詳細 -->
+    <div class="product-detail-container">
+        <div class="product-detail">
+            <div class="product-image-large">
+                <div class="image-placeholder-large" th:text="${product.category}">カテゴリ</div>
+            </div>
+
+            <div class="product-info-detail">
+                <h1 th:text="${product.productName}">商品名</h1>
+                <p class="category" th:text="${product.category}">カテゴリ</p>
+
+                <div class="price-section">
+                    <div class="price-large">
+                        <span class="price-value" th:text="${#numbers.formatInteger(product.price, 1)}">0</span>
+                        <span class="price-unit">円</span>
+                    </div>
+                </div>
+
+                <div class="stock-info">
+                    <p th:if="${product.stockQuantity > 0}">
+                        <span class="badge in-stock">在庫あり</span>
+                        <span class="stock-count" th:text="${'残在庫: ' + product.stockQuantity}">残在庫</span>
+                    </p>
+                    <p th:if="${product.stockQuantity <= 0}">
+                        <span class="badge out-of-stock">在庫なし</span>
+                    </p>
+                </div>
+
+                <div class="description-section">
+                    <h3>商品説明</h3>
+                    <p th:text="${product.description}">商品説明</p>
+                </div>
+
+                <div class="specifications-section">
+                    <h3>詳細情報</h3>
+                    <table class="specs-table">
+                        <tr th:if="${product.size}">
+                            <td class="spec-label">サイズ</td>
+                            <td class="spec-value" th:text="${product.size}">-</td>
+                        </tr>
+                        <tr th:if="${product.weight}">
+                            <td class="spec-label">重量</td>
+                            <td class="spec-value" th:text="${product.weight}">-</td>
+                        </tr>
+                        <tr th:if="${product.origin}">
+                            <td class="spec-label">製造国</td>
+                            <td class="spec-value" th:text="${product.origin}">-</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="add-to-cart-section">
+                    <form th:action="@{/cart/add}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+                        <label for="quantity">数量:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" class="quantity-large">
+                        <span class="max-note">※最大10個まで購入できます</span>
+                        <button class="btn primary large" th:disabled="${product.stockQuantity <= 0}" type="submit">
+                            <span th:if="${product.stockQuantity > 0}">カートに追加</span>
+                            <span th:if="${product.stockQuantity <= 0}">在庫なし</span>
+                        </button>
+                    </form>
+                </div>
+
+                <a th:href="@{/products}" class="btn secondary">商品一覧に戻る</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/menu.js}"></script>
+</body>
+</html>

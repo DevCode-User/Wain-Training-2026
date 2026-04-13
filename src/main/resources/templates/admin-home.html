@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者ホーム</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <div class="card result-card">
+        <h1>管理者ホーム</h1>
+        <p>管理者ログイン成功です。</p>
+        <p>ようこそ、<strong th:text="${userName}">管理者名</strong> さん</p>
+        <p>管理者ID: <span th:text="${userId}">1</span></p>
+        <p class="description">この画面は設計書の「ダッシュボード」相当の簡易確認画面です。</p>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn primary" type="submit">ログアウト</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
