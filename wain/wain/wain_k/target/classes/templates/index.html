@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECシステム入口</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page center-page">
+    <div class="card menu-card">
+        <h1>ECシステム入口</h1>
+        <p class="description">設計書の画面仕様に合わせて、利用者ログイン・新規登録・管理者ログインへ分岐する入口画面です。</p>
+        <div class="button-group vertical">
+            <a class="btn primary" th:href="@{/login}">利用者ログイン</a>
+            <a class="btn secondary" th:href="@{/register}">新規会員登録</a>
+            <a class="btn secondary" th:href="@{/admin/login}">管理者ログイン</a>
+        </div>
+        <div class="note-box">
+            <p>初期利用者ID: <strong>user001</strong></p>
+            <p>初期利用者PW: <strong>cust1234</strong></p>
+            <p>初期管理者ID: <strong>admin001</strong></p>
+            <p>初期管理者PW: <strong>admin1234</strong></p>
+            <p class="muted-note">新規登録した利用者でもログインできます。</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

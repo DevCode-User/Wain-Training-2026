@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者ログイン</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page center-page">
+    <div class="card login-card">
+        <h1>管理者ログイン</h1>
+        <p class="description">admins テーブルの login_id と password を照合します。</p>
+
+        <form th:action="@{/admin/login}" th:object="${loginForm}" method="post">
+            <label for="loginId">管理者ID</label>
+            <input id="loginId" type="text" th:field="*{loginId}" placeholder="例: admin001">
+            <p class="field-error" th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}"></p>
+
+            <label for="password">パスワード</label>
+            <input id="password" type="password" th:field="*{password}" placeholder="パスワードを入力">
+            <p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+            <p class="form-error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+            <div class="button-group">
+                <button class="btn primary" type="submit">ログイン</button>
+                <a class="btn secondary" th:href="@{/}">戻る</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

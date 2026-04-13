@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利用者ホーム</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <div class="card result-card">
+        <h1>利用者ホーム</h1>
+        <p>ログイン成功です。</p>
+        <p>ようこそ、<strong th:text="${userName}">利用者名</strong> さん</p>
+        <p>顧客ID: <span th:text="${userId}">1</span></p>
+        <p class="description">この画面は設計書の「トップ画面 / 商品一覧」へ進む前のログイン確認用サンプルです。</p>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn primary" type="submit">ログアウト</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
