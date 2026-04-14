@@ -1,0 +1,17 @@
+﻿このZIPは文字化け対策として以下を調整しています。
+
+1. ZIP内の補足テキストのファイル名をASCIIに変更
+   - added_features_utf8.txt
+
+2. README.md と added_features_utf8.txt を UTF-8 BOM 付きで保存
+
+3. pom.xml に UTF-8 の明示設定を追加
+   - project.build.sourceEncoding=UTF-8
+   - project.reporting.outputEncoding=UTF-8
+
+4. application.yml に文字コード設定を追加
+   - server.servlet.encoding.charset=UTF-8
+   - spring.thymeleaf.encoding=UTF-8
+   - JDBC URL に useUnicode=true / characterEncoding=UTF-8
+
+Windowsで開くときは、VS Code なら右下の文字コード表示から UTF-8 を選ぶと確実です。

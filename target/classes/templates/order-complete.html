@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注文完了</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page">
+    <!-- ナビゲーションヘッダー -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title">注文完了</h1>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a th:href="@{/home}" class="nav-link">ホーム</a>
+                <a th:href="@{/products}" class="nav-link">商品一覧</a>
+                <a th:href="@{/cart}" class="nav-link">カート</a>
+                <a th:href="@{/mypage}" class="nav-link">マイページ</a>
+                <form th:action="@{/logout}" method="post" class="nav-logout">
+                    <button type="submit" class="nav-link">ログアウト</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 注文完了メッセージ -->
+    <div class="order-complete-container">
+        <div class="card success-card">
+            <h1>注文ありがとうございます</h1>
+            <p class="success-text">ご注文が正常に確定いたしました。</p>
+
+            <div class="order-info">
+                <div class="info-row">
+                    <span class="label">注文番号:</span>
+                    <span class="value" th:text="${order.orderId}">12345</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">注文日時:</span>
+                    <span class="value" th:text="${#temporals.format(order.orderDate, 'yyyy年MM月dd日 HH:mm:ss')}">2026年04月10日</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">注文合計:</span>
+                    <span class="value total" th:text="${#numbers.formatInteger(order.totalAmount, 1)} + '円'">0円</span>
+                </div>
+            </div>
+
+            <div class="order-items-summary">
+                <h3>ご注文内容</h3>
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>商品名</th>
+                            <th>数量</th>
+                            <th>単価</th>
+                            <th>小計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${orderItems}">
+                            <td th:text="${item.productName}">商品名</td>
+                            <td th:text="${item.quantity}">1</td>
+                            <td class="price" th:text="${#numbers.formatInteger(item.unitPrice, 1)} + '円'">0円</td>
+                            <td class="price" th:text="${#numbers.formatInteger(item.subtotal, 1)} + '円'">0円</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="note-section">
+                <p>ご注文の確認メールを送信いたしました。ご確認ください。</p>
+            </div>
+
+            <div class="button-group">
+                <a th:href="@{/mypage}" class="btn primary large">注文履歴を確認する</a>
+                <a th:href="@{/products}" class="btn secondary">引き続き買い物をする</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/menu.js}"></script>
+</body>
+</html>

@@ -14,12 +14,14 @@
     <artifactId>ec-login-sample</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ec-login-sample</name>
-    <description>EC system login sample based on design workbook</description>
+    <description>EC system based on design workbook</description>
 
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -47,6 +49,11 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.10.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,0 +1,26 @@
+﻿設計書に寄せて追加・調整した主な内容
+
+1. 管理者機能
+- 管理ダッシュボード
+- 商品管理（登録・編集・非表示）
+- 在庫管理（一括更新・CSV取込）
+- 注文管理（一覧・詳細・状態更新）
+
+2. データ設計寄せ
+- categories テーブル対応
+- carts / cart_items テーブル対応
+- products.category_id 対応
+- orders.shipping_addr 対応
+
+3. API追加
+- POST /api/login
+- GET /api/products
+- POST /api/orders
+
+4. 付属ファイル
+- start-app.ps1
+- sample/stock_update_sample.csv
+- README.md
+
+注意:
+この環境では Maven が未導入だったため、ビルド済みjarではなくソース一式としてまとめています。
